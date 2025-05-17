@@ -1,0 +1,15 @@
+digraph flowchart {
+	graph [rankdir=LR]
+	node [shape=box style=filled]
+	BERT [label="BERT (2019)
+Unimodal: Text-only" fillcolor=green]
+	CLIP [label="CLIP (2021)
+Text + Images" fillcolor=yellow]
+	DALLE [label="DALL·E (2021)
+Text + Image generation" fillcolor=yellow]
+	PALME [label="PaLM-E (2023)
+Text + Images + Sensors" fillcolor=orange]
+	BERT -> CLIP [label="Added vision (2021)"]
+	CLIP -> DALLE [label="Added image generation (2021)"]
+	DALLE -> PALME [label="Added sensor data + robotics (2023)"]
+}
