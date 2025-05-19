@@ -1,0 +1,21 @@
+StudentId,Name,Age,Gender,Program,GPA
+1,Mohammad Khan,30,M,CS,3.8
+2,Abdullah Rahman,22,M,MH,3.5
+3,Najifa Ahmed,21,F,PH,2.9
+4,Dina Islam,19,F,CH,4.0
+5,Tasnim Begum,,F,BG,3.2
+6,Kynat Ara,24,F,CS,3.7
+7,Ali Hassan,27,M,EE,3.1
+8,Sara Malik,20,F,MH,3.9
+9,Omar Farooq,25,M,PH,2.8
+10,Ayesha Siddiqui,,F,CH,3.4
+11,Imran Ahmed,23,M,CS,3.6
+12,Fatima Noor,21,F,BG,3.0
+13,Usman Qureshi,28,M,EE,3.3
+14,Meherun Nessa,19,F,PH,3.8
+15,Asif Iqbal,26,M,MH,2.7
+16,Rabeya Khatun,22,F,CS,3.5
+17,Salman Shah,24,M,BG,3.2
+18,Laila Akhtar,20,F,CH,3.9
+19,Zainab Bibi,,F,EE,3.1
+20,Haris Mahmood,29,M,CS,3.4
