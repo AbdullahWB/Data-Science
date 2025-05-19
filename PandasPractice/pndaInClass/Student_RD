@@ -1,0 +1,7 @@
+StudentId,Name,Age,Gender,Program,RegistrationData,Status
+1,Mohammad,30.0,M,CS,2023-09-01,A
+2,Abdullah,22.0,M,MH,2023-09-01,A
+3,Najifa,21.0,F,PH,2023-09-01,D
+4,Dina,19.0,F,CH,2023-09-01,G
+5,Tasnim,,F,BG,2023-09-01,A
+6,Kynat,,F,,2023-09-01,
