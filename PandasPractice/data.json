@@ -1,0 +1,77 @@
+[
+    {
+        "id": 1,
+        "name": "Mohammad Khan",
+        "age": 30,
+        "gender": "M",
+        "program": "Computer Science",
+        "registration_date": "2023-09-01",
+        "status": "Active",
+        "projects": {
+            "name": "Image Editor v1",
+            "last_edited_image": "landscape.jpg",
+            "edits_applied": ["resize", "rotate", "grayscale"],
+            "last_modified": "2025-05-15T10:30:00Z"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Abdullah Rahman",
+        "age": 22,
+        "gender": "M",
+        "program": "Mathematics",
+        "registration_date": "2023-09-01",
+        "status": "Active",
+        "projects": {
+            "name": "Photo Filter App",
+            "last_edited_image": "portrait.png",
+            "edits_applied": ["blur", "brightness"],
+            "last_modified": "2025-05-18T14:20:00Z"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Najifa Ahmed",
+        "age": 21,
+        "gender": "F",
+        "program": "Physics",
+        "registration_date": "2023-09-01",
+        "status": "Dropped",
+        "projects": {
+            "name": null,
+            "last_edited_image": null,
+            "edits_applied": [],
+            "last_modified": null
+        }
+    },
+    {
+        "id": 4,
+        "name": "Dina Islam",
+        "age": 19,
+        "gender": "F",
+        "program": "Chemistry",
+        "registration_date": "2023-09-01",
+        "status": "Graduated",
+        "projects": {
+            "name": "Image Crop Tool",
+            "last_edited_image": "nature.jpg",
+            "edits_applied": ["crop", "flip"],
+            "last_modified": "2025-04-10T09:15:00Z"
+        }
+    },
+    {
+        "id": 5,
+        "name": "Tasnim Begum",
+        "age": null,
+        "gender": "F",
+        "program": "Biology",
+        "registration_date": "2023-09-01",
+        "status": "Active",
+        "projects": {
+            "name": "Background Remover",
+            "last_edited_image": "selfie.png",
+            "edits_applied": ["remove_background"],
+            "last_modified": "2025-05-20T00:05:00Z"
+        }
+    }
+]
