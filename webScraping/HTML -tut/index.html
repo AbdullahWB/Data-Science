@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Basic Web Page</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        header {
+            background: #35424a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        h1 {
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        button {
+            background: #35424a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #4e6372;
+        }
+        
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e2e2e2;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to My Page</h1>
+        </header>
+        
+        <main>
+            <p>This is a basic HTML page with CSS and JavaScript all in one file.</p>
+            
+            <button id="clickMe">Click Me!</button>
+            
+            <div id="output">
+                Click the button to see JavaScript in action.
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript Code
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('clickMe');
+            const output = document.getElementById('output');
+            let clickCount = 0;
+            
+            button.addEventListener('click', function() {
+                clickCount++;
+                output.innerHTML = `Button clicked ${clickCount} time(s).`;
+                
+                // Change background color randomly
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                output.style.backgroundColor = randomColor;
+                output.style.color = getContrastColor(randomColor);
+            });
+            
+            // Helper function to get contrasting text color
+            function getContrastColor(hexColor) {
+                // Convert hex to RGB
+                const r = parseInt(hexColor.substr(1,2), 16);
+                const g = parseInt(hexColor.substr(3,2), 16);
+                const b = parseInt(hexColor.substr(5,2), 16);
+                
+                // Calculate luminance
+                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                
+                // Return dark or light color based on luminance
+                return luminance > 0.5 ? '#000000' : '#ffffff';
+            }
+        });
+    </script>
+</body>
+</html>
