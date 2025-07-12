@@ -222,7 +222,45 @@ DELIMITER ;
 -- Now you can call the stored procedure
 CALL GetAllStudents();
 
--- 8. Triggers
+-- 8. Stored Procedures
+-- A stored procedure is a precompiled collection of one or more SQL statements stored in the database.
+-- It can take parameters, perform operations, and return results.
+
+-- Example Stored Procedure: Get Student Enrollment Summary
+-- This procedure takes a student's ID as an input and returns their enrollment details.
+DELIMITER //
+CREATE PROCEDURE GetStudentEnrollmentSummary(IN p_student_id INT)
+BEGIN
+    -- Check if the student exists
+    IF EXISTS (SELECT 1 FROM Students WHERE student_id = p_student_id) THEN
+        SELECT
+            S.first_name,
+            S.last_name,
+            C.course_name,
+            C.credits,
+            E.enrollment_date,
+            E.grade
+        FROM
+            Students S
+        JOIN
+            Enrollments E ON S.student_id = E.student_id
+        JOIN
+            Courses C ON E.course_id = C.course_id
+        WHERE
+            S.student_id = p_student_id;
+    ELSE
+        SELECT 'Student not found.' AS Message;
+    END IF;
+END //
+DELIMITER ;
+
+-- Call the stored procedure with an existing student ID
+CALL GetStudentEnrollmentSummary((SELECT student_id FROM Students WHERE first_name = 'Alice' AND last_name = 'Smith'));
+
+-- Call the stored procedure with a non-existent student ID
+CALL GetStudentEnrollmentSummary(999);
+
+-- 9. Triggers
 -- A trigger is a special type of stored procedure that automatically runs when a specific event occurs
 -- in the database (INSERT, UPDATE, DELETE) on a specific table.
 
@@ -280,7 +318,7 @@ INSERT INTO Enrollments (student_id, course_id, enrollment_date, grade) VALUES
 
 SELECT * FROM Enrollment_Log; -- Check the log table
 
--- 9. Getting Current Date and Time
+-- 10. Getting Current Date and Time
 SELECT CURDATE() AS CurrentDate; -- Current date
 SELECT CURRENT_DATE() AS CurrentDateAlias; -- Another alias for current date
 SELECT CURTIME() AS CurrentTime; -- Current time
@@ -301,7 +339,7 @@ SELECT YEAR(NOW()) AS CurrentYear;
 SELECT MONTH(NOW()) AS CurrentMonth;
 SELECT DAY(NOW()) AS CurrentDay;
 
--- 10. Constraints (already demonstrated in CREATE TABLE, but let's re-emphasize)
+-- 11. Constraints (already demonstrated in CREATE TABLE, but let's re-emphasize)
 -- PRIMARY KEY: student_id in Students, instructor_id in Instructors, etc. (Unique and NOT NULL)
 -- FOREIGN KEY: instructor_id in Courses, student_id and course_id in Enrollments (Links tables)
 -- UNIQUE: email in Students, course_name in Courses (Ensures uniqueness of values in a column)
@@ -324,7 +362,7 @@ SELECT DAY(NOW()) AS CurrentDay;
 -- ('Invalid Course', 0, (SELECT instructor_id FROM Instructors WHERE last_name = 'Doe'));
 -- Error: Check constraint 'chk_credits' is violated.
 
--- 11. Joins
+-- 12. Joins
 -- Combining rows from two or more tables based on a related column between them.
 
 -- INNER JOIN: Returns rows when there is a match in both tables.
@@ -396,7 +434,7 @@ RIGHT JOIN
     Courses C ON E.course_id = C.course_id;
 
 
--- 12. UNION
+-- 13. UNION
 -- Combines the result sets of two or more SELECT statements.
 -- Each SELECT statement within UNION must have the same number of columns,
 -- the columns must have similar data types, and they must be in the same order.
@@ -411,7 +449,7 @@ SELECT first_name, last_name FROM Students
 UNION ALL
 SELECT first_name, last_name FROM Instructors;
 
--- 13. Functions
+-- 14. Functions
 -- MySQL provides many built-in functions for various purposes.
 
 -- Aggregate Functions: Perform calculations on a set of rows and return a single summary row.
@@ -448,7 +486,7 @@ JOIN
     Enrollments E ON S.student_id = E.student_id
 WHERE E.grade IS NULL;
 
--- 14. Views
+-- 15. Views
 -- A view is a virtual table based on the result-set of an SQL statement.
 -- A view contains rows and columns, just like a real table. The fields in a view are
 -- fields from one or more real tables in the database.
@@ -480,7 +518,7 @@ SELECT * FROM StudentEnrollmentDetails;
 -- Filter the view
 SELECT * FROM StudentEnrollmentDetails WHERE StudentLastName = 'Smith';
 
--- 15. Indexes
+-- 16. Indexes
 -- Indexes are used to retrieve data from the database more quickly.
 -- The users cannot see the indexes, they are just used to speed up searches/queries.
 -- PRIMARY KEY and UNIQUE constraints automatically create indexes.
@@ -495,7 +533,7 @@ CREATE INDEX idx_course_name_credits ON Courses (course_name, credits);
 SHOW INDEX FROM Students;
 SHOW INDEX FROM Courses;
 
--- 16. Subqueries
+-- 17. Subqueries
 -- A subquery (inner query or nested query) is a query embedded inside another SQL query.
 -- It can be used in the SELECT, FROM, WHERE, and HAVING clauses.
 
@@ -532,7 +570,7 @@ WHERE EXISTS (
     WHERE C.instructor_id = I.instructor_id
 );
 
--- 17. GROUP BY and HAVING
+-- 18. GROUP BY and HAVING
 -- GROUP BY: Groups rows that have the same values in specified columns into a summary row.
 -- HAVING: Filters groups based on a specified condition (similar to WHERE, but for groups).
 
@@ -572,7 +610,7 @@ GROUP BY
 HAVING
     COUNT(E.student_id) > 1; -- Only show courses with more than 1 student
 
--- 18. LIKE Operator
+-- 19. LIKE Operator
 -- Used in a WHERE clause to search for a specified pattern in a column.
 -- %: Represents zero, one, or multiple characters.
 -- _: Represents a single character.
