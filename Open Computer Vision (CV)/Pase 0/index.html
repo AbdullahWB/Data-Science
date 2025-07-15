@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCV: The Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: A top-to-bottom narrative infographic. The structure guides the user through a story: 1. A hook defining OpenCV. 2. Key benefits with large stats. 3. A bar chart comparing industry use (the "why"). 4. A flowchart for the basic process (the "how"). 5. Cards for advanced applications (the "wow"). 6. A clear call to action. This single-scroll narrative is ideal for making a dense report digestible and engaging. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Core Benefits (Performance, Cost) -> Goal: Inform -> Viz: Single Big Number -> Justification: High-impact way to convey key stats. -> Method: HTML/Tailwind.
+        - Report Info: Industry Relevance -> Goal: Compare -> Viz: Bar Chart -> Justification: Best for comparing categorical data. -> Library: Chart.js/Canvas.
+        - Report Info: Basic Operations -> Goal: Organize/Process -> Viz: Flow Chart -> Justification: Visually clarifies a sequence better than text. -> Method: HTML/Tailwind.
+        - Report Info: Advanced Applications -> Goal: Organize/Inform -> Viz: Icon Cards -> Justification: Scannable, visually appealing way to list examples. -> Method: HTML/Tailwind with Unicode.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-4xl mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-5xl md:text-7xl font-black uppercase" style="color: #3867d6;">OpenCV</h1>
+            <p class="text-xl md:text-2xl font-semibold mt-2" style="color: #4b7bec;">Enabling Computers to See Our World</p>
+        </header>
+
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-12">
+            <h2 class="text-center text-3xl font-bold mb-6" style="color: #3867d6;">Why Is It a Game-Changer?</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">OpenCV provides a powerful, fast, and free toolkit for computer vision development, making it the industry standard for everything from startups to tech giants.</p>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 rounded-lg bg-blue-50">
+                    <div class="text-5xl font-extrabold" style="color: #4b7bec;">C++</div>
+                    <p class="mt-2 font-semibold text-slate-700">High-Performance Core</p>
+                </div>
+                <div class="p-6 rounded-lg bg-green-50">
+                    <div class="text-5xl font-extrabold" style="color: #26de81;">Free</div>
+                    <p class="mt-2 font-semibold text-slate-700">Open-Source License</p>
+                </div>
+                <div class="p-6 rounded-lg bg-yellow-50">
+                    <div class="text-5xl font-extrabold" style="color: #fed330;">Multi</div>
+                    <p class="mt-2 font-semibold text-slate-700">Cross-Platform Support</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-12">
+            <h2 class="text-center text-3xl font-bold mb-2" style="color: #3867d6;">Driving Innovation Everywhere</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">From self-driving cars to healthcare, OpenCV is a critical component in the most innovative sectors. This chart highlights its relevance and adoption across key industries.</p>
+            <div class="chart-container">
+                <canvas id="industryAdoptionChart"></canvas>
+            </div>
+        </section>
+        
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-12">
+             <h2 class="text-center text-3xl font-bold mb-8" style="color: #3867d6;">A Typical Vision Workflow</h2>
+             <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">Most computer vision tasks follow a fundamental process. This flowchart illustrates the typical steps, from loading an image to identifying key features within it.</p>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-2 text-center text-sm md:text-base">
+                <div class="p-4 bg-gray-100 rounded-lg w-full md:w-auto shadow-sm"><strong>1. Load Image</strong></div>
+                <div class="font-bold text-2xl" style="color: #4b7bec;">&rarr;</div>
+                <div class="p-4 bg-gray-100 rounded-lg w-full md:w-auto shadow-sm"><strong>2. Pre-process</strong><br>(Grayscale, Blur)</div>
+                <div class="font-bold text-2xl" style="color: #4b7bec;">&rarr;</div>
+                <div class="p-4 bg-gray-100 rounded-lg w-full md:w-auto shadow-sm"><strong>3. Detect Features</strong><br>(Edges, Corners)</div>
+                <div class="font-bold text-2xl" style="color: #4b7bec;">&rarr;</div>
+                <div class="p-4 bg-gray-100 rounded-lg w-full md:w-auto shadow-sm"><strong>4. Analyze & Act</strong></div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-12">
+            <h2 class="text-center text-3xl font-bold mb-8" style="color: #3867d6;">Real-World Applications</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">The power of OpenCV is seen in the countless applications it enables. Here are just a few examples of how it's changing the world.</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+                <div class="p-4 bg-blue-50 rounded-lg"><span class="text-4xl">🚗</span><p class="mt-2 font-semibold text-slate-700">Self-Driving Cars</p></div>
+                <div class="p-4 bg-green-50 rounded-lg"><span class="text-4xl">🩺</span><p class="mt-2 font-semibold text-slate-700">Medical Imaging</p></div>
+                <div class="p-4 bg-red-50 rounded-lg"><span class="text-4xl">🤖</span><p class="mt-2 font-semibold text-slate-700">Robotics</p></div>
+                <div class="p-4 bg-yellow-50 rounded-lg"><span class="text-4xl">🛡️</span><p class="mt-2 font-semibold text-slate-700">Security</p></div>
+                <div class="p-4 bg-purple-50 rounded-lg"><span class="text-4xl">🏭</span><p class="mt-2 font-semibold text-slate-700">Automation</p></div>
+                <div class="p-4 bg-orange-50 rounded-lg"><span class="text-4xl">✨</span><p class="mt-2 font-semibold text-slate-700">Augmented Reality</p></div>
+            </div>
+        </section>
+
+        <footer class="text-center my-12">
+            <h2 class="text-2xl font-bold mb-4" style="color: #3867d6;">Ready to Start Building?</h2>
+            <p class="text-slate-600 mb-4">Getting started is simple. With Python, you can install OpenCV with a single command.</p>
+            <pre class="bg-gray-800 text-white p-4 rounded-md inline-block"><code>pip install opencv-python</code></pre>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('industryAdoptionChart').getContext('2d');
+            const data = {
+                labels: ['Robotics', 'Automotive', 'Healthcare', 'Security', 'Industrial Automation', 'Retail'],
+                datasets: [{
+                    label: 'Industry Adoption Score',
+                    data: [92, 90, 85, 88, 80, 75],
+                    backgroundColor: [
+                        'rgba(56, 103, 214, 0.7)',
+                        'rgba(75, 123, 236, 0.7)',
+                        'rgba(38, 222, 129, 0.7)',
+                        'rgba(252, 92, 101, 0.7)',
+                        'rgba(254, 211, 48, 0.7)',
+                        'rgba(252, 132, 3, 0.7)'
+                    ],
+                    borderColor: [
+                        '#3867d6',
+                        '#4b7bec',
+                        '#26de81',
+                        '#fc5c65',
+                        '#fed330',
+                        '#fc8403'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    borderSkipped: false,
+                }]
+            };
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2e8f0'
+                            },
+                            ticks: {
+                                color: '#475569',
+                                font: { weight: '600' }
+                            }
+                        },
+                        x: {
+                             grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#475569',
+                                font: { weight: '600' }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
