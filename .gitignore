@@ -1,0 +1,25 @@
+# Ignore Python pickle files
+*.pkl
+
+# Ignore Hugging Face model binary files
+*.bin
+
+# Ignore PyTorch model state dict files
+*.pt
+
+# Optionally, you might also want to ignore:
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python compiled files
+__pycache__/
+*.pyc
+
+# Virtual environment folders
+.venv/
+env/
+venv/
+
+# Logs and results directories (if not needed in repo)
+logs/
+results/
