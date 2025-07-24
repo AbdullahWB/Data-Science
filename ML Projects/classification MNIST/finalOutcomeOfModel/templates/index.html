@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draw a Digit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .container {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      canvas {
+        border: 2px solid #cbd5e1;
+        border-radius: 8px;
+        background-color: #000000; /* Black background for drawing digits */
+        touch-action: none; /* Prevent scrolling on touch devices */
+      }
+      button {
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      }
+      button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .info-box {
+        background-color: #e2e8f0;
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 0.9em;
+        color: #4a5568;
+        width: 100%;
+        text-align: center;
+      }
+      .error-message {
+        color: #dc2626; /* Red color for errors */
+        font-weight: bold;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">Draw a Digit (0-9)</h1>
+
+      <canvas id="drawingCanvas" width="280" height="280"></canvas>
+
+      <div class="flex gap-4 w-full justify-center">
+        <button
+          id="predictBtn"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg"
+        >
+          Predict Digit
+        </button>
+        <button
+          id="clearBtn"
+          class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg"
+        >
+          Clear
+        </button>
+      </div>
+
+      <div id="predictionResult" class="info-box mt-4 hidden">
+        <p class="font-semibold text-lg">Predictions:</p>
+        <p class="text-xl font-bold text-blue-800">
+          KNN: <span id="predictedDigitKNN"></span>
+        </p>
+        <p class="text-xl font-bold text-green-700">
+          Random Forest: <span id="predictedDigitRF"></span>
+        </p>
+        <p class="mt-2 text-sm">
+          Pixel data (first 20 values):
+          <span
+            id="pixelDataPreview"
+            class="font-mono text-gray-700 break-all"
+          ></span>
+        </p>
+      </div>
+
+      <div id="errorMessage" class="error-message hidden"></div>
+
+      <div class="info-box mt-4">
+        <p class="text-sm">
+          Draw a digit on the black canvas using your mouse or touch. Click
+          "Predict Digit" to send the drawing to the Flask backend for
+          prediction.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("drawingCanvas");
+      const ctx = canvas.getContext("2d");
+      const predictBtn = document.getElementById("predictBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const predictionResultDiv = document.getElementById("predictionResult");
+      const predictedDigitKNN = document.getElementById("predictedDigitKNN");
+      const predictedDigitRF = document.getElementById("predictedDigitRF");
+      const pixelDataPreviewSpan = document.getElementById("pixelDataPreview");
+      const errorMessageDiv = document.getElementById("errorMessage");
+
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Set drawing properties
+      ctx.lineWidth = 20; // Thicker line for digit drawing
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#FFFFFF"; // White drawing on black background
+
+      function draw(e) {
+        if (!isDrawing) return;
+
+        // Get coordinates relative to the canvas
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        [lastX, lastY] = [x, y];
+      }
+
+      canvas.addEventListener("mousedown", (e) => {
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", () => (isDrawing = false));
+      canvas.addEventListener("mouseout", () => (isDrawing = false));
+
+      // Touch events for mobile
+      canvas.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          isDrawing = true;
+          const rect = canvas.getBoundingClientRect();
+          lastX = e.touches[0].clientX - rect.left;
+          lastY = e.touches[0].clientY - rect.top;
+        },
+        { passive: false }
+      );
+
+      canvas.addEventListener("touchmove", draw, { passive: false });
+      canvas.addEventListener("touchend", () => (isDrawing = false));
+      canvas.addEventListener("touchcancel", () => (isDrawing = false));
+
+      clearBtn.addEventListener("click", () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        predictionResultDiv.classList.add("hidden");
+        predictedDigitKNN.textContent = "";
+        predictedDigitRF.textContent = "";
+        pixelDataPreviewSpan.textContent = "";
+        errorMessageDiv.classList.add("hidden"); // Clear any error messages
+        errorMessageDiv.textContent = "";
+      });
+
+      // Initial clear to ensure black background
+      clearBtn.click();
+
+      predictBtn.addEventListener("click", async () => {
+        errorMessageDiv.classList.add("hidden"); // Hide previous errors
+        errorMessageDiv.textContent = "";
+        predictionResultDiv.classList.add("hidden"); // Hide previous results
+
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = 28;
+        tempCanvas.height = 28;
+        const tempCtx = tempCanvas.getContext("2d");
+
+        tempCtx.imageSmoothingEnabled = false;
+        tempCtx.drawImage(canvas, 0, 0, 28, 28);
+
+        const imageData = tempCtx.getImageData(0, 0, 28, 28);
+        const pixels = imageData.data;
+
+        const grayscalePixels = [];
+        for (let i = 0; i < pixels.length; i += 4) {
+          // MNIST digits are white on black. We want intensity of white.
+          // Since our drawing is white on black, we can directly use the red channel (or average R,G,B).
+          // Values will be 0 (black) to 255 (white).
+          grayscalePixels.push(pixels[i]);
+        }
+
+        pixelDataPreviewSpan.textContent =
+          grayscalePixels.slice(0, 20).join(", ") + "... (total 784 values)";
+
+        try {
+          // Make the API call to your Flask backend
+          const response = await fetch("http://127.0.0.1:5000/predict", {
+            // Adjust URL if your Flask app runs on a different host/port
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ pixels: grayscalePixels }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || `HTTP error! status: ${response.status}`
+            );
+          }
+
+          const data = await response.json();
+
+          // Display the predictions from the backend
+          predictedDigitKNN.textContent = data.knn_prediction;
+          predictedDigitRF.textContent = data.random_forest_prediction;
+          predictionResultDiv.classList.remove("hidden");
+        } catch (error) {
+          console.error("Error during prediction:", error);
+          errorMessageDiv.textContent = `Prediction failed: ${error.message}. Is the Flask server running?`;
+          errorMessageDiv.classList.remove("hidden");
+        }
+
+        console.log("Captured 784 pixel values:", grayscalePixels);
+      });
+    </script>
+  </body>
+</html>
